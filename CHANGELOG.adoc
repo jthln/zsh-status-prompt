@@ -13,3 +13,7 @@ Changes for specific issues shall contain the issue number, e.g. #1234.
 == [1.0.0] - 2026-11-02
 
 - feat: Initial commit
+
+== [1.0.1] - 2026-11-02
+
+- ci: fix CI failure in tests/git-prompt-git-states.zsh
