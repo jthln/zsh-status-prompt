@@ -385,7 +385,7 @@ test_hostname_toggle() {
   line_default=$(render_prompt_line2 "$repo")
   expected_host=${HOST%%.*}
   [[ -n $expected_host ]] || expected_host=$(hostname -s)
-  expected_user=${USER:-$(whoami)}
+  expected_user=$(id -un)
   show_rendered_line2 'hostname default' "$line_default"
   assert_not_contains "$line_default" "${expected_user}@$expected_host" 'hostname should be hidden by default'
   assert_contains "$line_default" "${expected_user}" 'username should be shown by default'
@@ -402,9 +402,8 @@ test_hostname_toggle() {
     render_prompt_line2 "$repo"
   )
   show_rendered_line2 'hostname only' "$line_host_only"
-  assert_not_contains "$line_host_only" "$expected_user" 'username should be hidden when disabled'
+  assert_not_contains "$line_host_only" '@' 'host-only prompt should not include a username separator'
   assert_contains "$line_host_only" "$expected_host" 'hostname should remain when username is disabled'
-  assert_not_contains "$line_host_only" "@$expected_host" 'host-only prompt should not include obsolete @ prefix'
 }
 
 test_privilege_char_toggle() {
@@ -413,7 +412,7 @@ test_privilege_char_toggle() {
   init_repo "$repo"
   seed_repo "$repo"
 
-  expected_user=${USER:-$(whoami)}
+  expected_user=$(id -un)
   [[ ${EUID:-$(id -u)} -eq 0 ]] && expected_priv='#' || expected_priv='%'
 
   line_default=$(render_prompt_line2 "$repo")
