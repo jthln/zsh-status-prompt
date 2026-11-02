@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2020-2026 Jürgen Thelen
+
+emulate -L zsh
+setopt errexit nounset pipefail
+
+cd -- "${0:A:h}"
+
+run_syntax() {
+  zsh -n zsh-status-prompt.zsh
+  zsh -n tests/git-prompt-git-states.zsh
+}
+
+run_tests() {
+  SHOW_PROMPTS=0 zsh tests/git-prompt-git-states.zsh
+}
+
+case ${1:-} in
+  syntax)
+    run_syntax
+    ;;
+  tests|test)
+    run_tests
+    ;;
+  check)
+    run_syntax
+    run_tests
+    ;;
+  *)
+    print -u2 -- "Usage: ${0:t} {syntax|tests|check}"
+    exit 2
+    ;;
+esac

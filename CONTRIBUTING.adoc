@@ -1,0 +1,77 @@
+:!prewrap:
+:toc:
+
+= Contributing
+
+Thanks for considering a contribution to `zsh-status-prompt`!
+
+This guide covers the local test requirements and pull-request process.
+
+== Get the code
+
+Fork the repository on GitHub, then clone your fork and add the original repository as `upstream`:
+
+Replace `YOUR-GITHUB-NAME` with your account and `OWNER` with the upstream repository owner's account.
+
+[source,shell]
+----
+git clone https://github.com/YOUR-GITHUB-NAME/zsh-status-prompt.git
+cd zsh-status-prompt
+git remote add upstream https://github.com/OWNER/zsh-status-prompt.git
+git fetch upstream
+git switch -c feature/short-description upstream/develop
+----
+
+The project uses `develop` as its integration branch. Regular Git branches are sufficient; Git Flow is not required.
+
+== Requirements and checks
+
+The prompt requires `zsh`. The fixture tests also require `git` and create temporary repositories to exercise Git status cases.
+
+Run syntax checks and the fixture tests before submitting a change:
+
+[source,shell]
+----
+./run syntax
+./run tests
+----
+
+Or run both checks together:
+
+[source,shell]
+----
+./run check
+----
+
+GitHub Actions runs the syntax checks and fixture test on pushes to `main` and `develop` and on pull requests targeting either branch.
+
+Run the checks locally before opening a pull request; include any relevant test notes in its description.
+
+== Make a change
+
+* Keep changes focused and explain why they are useful.
+* Preserve the small, zsh-native design and compatibility with supported Zsh versions.
+* Add or update fixture coverage when prompt behavior changes.
+* Update `README.adoc` when user-visible behavior, configuration, or requirements change.
+* Keep generated files, local IDE configuration, and owner-only `.annotations/` content out of contributions.
+* Run the syntax checks and fixture test before opening a pull request.
+
+Commit your changes on your feature branch, then push it to your fork:
+
+[source,shell]
+----
+git add path/to/changed/files
+git diff --cached --check
+git commit -m "Describe the change"
+git push -u origin feature/short-description
+----
+
+== Open a pull request
+
+Open a pull request from your fork's feature branch to the upstream repository's `develop` branch.
+
+Summarize the change and include the commands you ran and their results.
+
+Please respond to review feedback and update the pull-request branch as needed.
+
+A maintainer will review and merge contributions that are ready.
